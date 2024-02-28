@@ -8,8 +8,8 @@ const MyTheme = {
   roundness: 5,
   colors: {
     ...MD3LightTheme.colors,
-    primary: '',
-    onSurfaceVariant: '',
+    primary: 'darkgreen',
+    onSurfaceVariant: 'darkgreen',
   }
 };
 

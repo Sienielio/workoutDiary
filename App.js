@@ -1,92 +1,55 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Button, SegmentedButtons, MD3LightTheme, Provider, Text, TextInput, Chip } from 'react-native-paper';
+import { StyleSheet, View, Button, Pressable, StatusBar } from 'react-native';
+import { SegmentedButtons, MD3LightTheme, Provider, Text, TextInput, Chip, BottomNavigation } from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import style from './style/style';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import AddWorkoutScreen from './components/AddWorkoutScreen';
 
-const MyTheme = {
-  ...MD3LightTheme,
-  roundness: 5,
-  colors: {
-    ...MD3LightTheme.colors,
-    primary: 'darkgreen',
-    onSurfaceVariant: 'darkgreen',
-  }
-};
 
-const buttons = [
-  { icon: 'run-fast', label: 'Run', value: 0 },
-  { icon: 'ski', label: 'Ski', value: 1 },
-  { icon: 'swim', label: 'Swim', value: 2 },
-];
 
-const AddWorkoutScreen = () => {
-  const [selection, setSelection] = useState(buttons[0].value);
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+export default function App() {
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'home', title: 'Home', focusedIcon: 'account-circle', unfocusedIcon: 'account-circle-outline'},
+    { key: 'workouts', title: 'Workouts', focusedIcon: 'run-fast' },
+    { key: 'settings', title: 'Settings', focusedIcon: 'cog' },
+  ]);
 
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (date) => {
-    setSelectedDate(date);
-    hideDatePicker();
-  };
-
-  const formatDate = (date) => {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-    const year = date.getFullYear();
-    return `${day}.${month}.${year}`;
-  };
+  const scene = BottomNavigation.SceneMap({
+    home: HomeScreen,
+    workouts: Workouts,
+    settings: Settings,
+  })
 
   return (
-    <Provider theme={MyTheme}>
-      <View style={style.container}>
-        <Text
-          variant='headlineLarge'
-          style={{ textAlign: 'center', fontWeight: 'bold' }}
-        >
-          Add workout
-        </Text>
-        <SegmentedButtons
-          value={selection}
-          onValueChange={setSelection}
-          buttons={buttons}
-        />
-        <TextInput
-          label='Distance (km)'
-          mode='outlined'
-        />
-        <TextInput
-          label='Duration (min)'
-          mode='outlined'
-        />
-        <Chip
-          icon="calendar"
-          onPress={showDatePicker}
-          style={{ marginTop: 10 }}
-        >
-          {formatDate(selectedDate)}
-        </Chip>
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="date"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-        />
-        <Button
-          style={{ marginTop: 10 }}
-          mode='outlined'>Add workout</Button>
-      </View>
-    </Provider>
+    <SafeAreaProvider>
+      <BottomNavigation style={style.bottomNavigation}
+       navigationState={{ index, routes }}
+       onIndexChange={setIndex}
+        renderScene={scene}
+       /> 
+    </SafeAreaProvider>
+   
   );
 }
 
+function HomeScreen() {
+  return (
+    <AddWorkoutScreen/>
+  );
+}
+function Workouts() {
+  return (
+    <Text>Workouts</Text>
 
-export default AddWorkoutScreen;
+  )
+}
+function Settings() {
+  return (
+    <Text>Settings</Text>
+  )
+}
