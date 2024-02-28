@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, SegmentedButtons, MD3LightTheme, Provider, Text, TextInput, Chip } from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import style from './style/style';
 
 const MyTheme = {
   ...MD3LightTheme,
@@ -46,11 +47,10 @@ const AddWorkoutScreen = () => {
 
   return (
     <Provider theme={MyTheme}>
-      <View style={styles.container}>
+      <View style={style.container}>
         <Text
           variant='headlineLarge'
           style={{ textAlign: 'center', fontWeight: 'bold' }}
-          
         >
           Add workout
         </Text>
@@ -67,7 +67,6 @@ const AddWorkoutScreen = () => {
           label='Duration (min)'
           mode='outlined'
         />
-        {/* Calendar Chip */}
         <Chip
           icon="calendar"
           onPress={showDatePicker}
@@ -89,14 +88,5 @@ const AddWorkoutScreen = () => {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    padding: 16,
-  },
-});
 
 export default AddWorkoutScreen;
