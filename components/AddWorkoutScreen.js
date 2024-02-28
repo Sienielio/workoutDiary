@@ -41,7 +41,7 @@ const AddWorkoutScreen = () => {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
     const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+    return `${day}.${month}.${year}`;
   };
   
   return (
@@ -83,6 +83,7 @@ const AddWorkoutScreen = () => {
         />
         {/* Submit Button */}
         <Button
+        onPress={() => console.log('Button pressed')}
           style={{ marginTop: 10 }}
           mode='outlined'>Add workout</Button>
       </View>
@@ -93,8 +94,10 @@ const AddWorkoutScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+        backgroundColor: '#fff',
+        alignItems: 'stretch',
+        justifyContent: 'center',
+        padding: 16,
   },
 });
 

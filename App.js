@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AddWorkoutScreen from './components/AddWorkoutScreen';
+import WorkoutList from './components/WorkoutList';
 
 
 
@@ -44,7 +45,7 @@ function HomeScreen() {
 }
 function Workouts() {
   return (
-    <Text>Workouts</Text>
+    <WorkoutList/>
 
   )
 }
