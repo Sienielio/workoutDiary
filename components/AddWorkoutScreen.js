@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, SegmentedButtons, MD3LightTheme, Provider, Text, TextInput, Chip } from 'react-native-paper';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { Button, DefaultTheme, MD3LightTheme, Provider, SegmentedButtons, Text, TextInput, Chip } from 'react-native-paper';
+import DateTimePickerModal from "react-native-modal-datetime-picker"; // Import DateTimePickerModal
 
 const MyTheme = {
   ...MD3LightTheme,
   roundness: 5,
   colors: {
     ...MD3LightTheme.colors,
-    primary: 'darkgreen',
-    onSurfaceVariant: 'darkgreen',
+    primary: '',
+    onSurfaceVariant: '',
   }
 };
 
@@ -43,7 +43,7 @@ const AddWorkoutScreen = () => {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
-
+  
   return (
     <Provider theme={MyTheme}>
       <View style={styles.container}>
@@ -74,12 +74,14 @@ const AddWorkoutScreen = () => {
         >
           {formatDate(selectedDate)}
         </Chip>
+        {/* Date Picker */}
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="date"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
         />
+        {/* Submit Button */}
         <Button
           style={{ marginTop: 10 }}
           mode='outlined'>Add workout</Button>
@@ -91,9 +93,8 @@ const AddWorkoutScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
