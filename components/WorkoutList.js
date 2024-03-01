@@ -1,32 +1,29 @@
-
-import React, { useContext, useState, useEffect } from 'react';
+import React from 'react';
+import { View } from 'react-native';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
+import style from '../style/style';
 
-const LeftContent = props => <Avatar.Icon {...props} icon="run-fast" />
+// Define the LeftContent component with props to handle icons
+const LeftContent = props => <Avatar.Icon {...props} icon={props.icon} />
 
 const WorkoutList = () => {
-  const renderItem = ({ item }) => {
-    if (selectedSportType && item.sportType !== selectedSportType) {
-      return null;
-    }
-    // Return your JSX for rendering each item
-    return (
-      <Card>
-        <Card.Title title={item.title} subtitle={item.subtitle} left={LeftContent} />
-        <Card.Content>
-          <Text>{item.content}</Text>
-        </Card.Content>
-      </Card>
-    );
-  }
+  const sportTypes = [
+    { icon: 'run-fast', kilometers: 25 },
+    { icon: 'swim', kilometers: 40 },
+    { icon: 'ski', kilometers: 15 }
+  ];
 
   return (
-    <Card>
-      <Card.Title title="Card Title" subtitle="Card Subtitle" left={LeftContent} />
-      <Card.Content>
-        <Text>Card content</Text>
-      </Card.Content>
-    </Card>
+    <View style={style.card}>
+      {sportTypes.map((sport, index) => (
+        <Card key={index}>
+          <Card.Content>
+            <LeftContent icon={sport.icon} />
+            <Text style={style.text}>{`${sport.kilometers} km`}</Text>
+          </Card.Content>
+        </Card>
+      ))}
+    </View>
   );
 };
 

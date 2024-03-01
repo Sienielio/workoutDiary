@@ -17,5 +17,11 @@ export default StyleSheet.create({
       text: {
         fontSize: 20,
         marginBottom: 10,
+        alignItems: 'center',
       },
+      card: {
+        marginRight: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+      }
     });
