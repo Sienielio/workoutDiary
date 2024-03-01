@@ -1,21 +1,33 @@
-import * as React from 'react';
+
+import React, { useContext, useState, useEffect } from 'react';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
 
-const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
+const LeftContent = props => <Avatar.Icon {...props} icon="run-fast" />
 
-const WorkoutList = () => (
-  <Card>
-    <Card.Title title="Card Title" subtitle="Card Subtitle" left={LeftContent} />
-    <Card.Content>
-      <Text variant="titleLarge">Card title</Text>
-      <Text variant="bodyMedium">Card content</Text>
-    </Card.Content>
-    <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
-    <Card.Actions>
-      <Button>Cancel</Button>
-      <Button>Ok</Button>
-    </Card.Actions>
-  </Card>
-);
+const WorkoutList = () => {
+  const renderItem = ({ item }) => {
+    if (selectedSportType && item.sportType !== selectedSportType) {
+      return null;
+    }
+    // Return your JSX for rendering each item
+    return (
+      <Card>
+        <Card.Title title={item.title} subtitle={item.subtitle} left={LeftContent} />
+        <Card.Content>
+          <Text>{item.content}</Text>
+        </Card.Content>
+      </Card>
+    );
+  }
+
+  return (
+    <Card>
+      <Card.Title title="Card Title" subtitle="Card Subtitle" left={LeftContent} />
+      <Card.Content>
+        <Text>Card content</Text>
+      </Card.Content>
+    </Card>
+  );
+};
 
 export default WorkoutList;

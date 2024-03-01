@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Button, DefaultTheme, MD3LightTheme, Provider, SegmentedButtons, Text, TextInput, Chip } from 'react-native-paper';
-import DateTimePickerModal from "react-native-modal-datetime-picker"; // Import DateTimePickerModal
+import { View, Alert } from 'react-native';
+import { Button, Chip, DefaultTheme, Provider, SegmentedButtons, Text, TextInput } from 'react-native-paper';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import style from '../style/style';
 
 const MyTheme = {
-  ...MD3LightTheme,
+  ...DefaultTheme,
   roundness: 5,
   colors: {
-    ...MD3LightTheme.colors,
+    ...DefaultTheme.colors,
     primary: 'darkgreen',
     onSurfaceVariant: 'darkgreen',
   }
@@ -23,6 +24,8 @@ const AddWorkoutScreen = () => {
   const [selection, setSelection] = useState(buttons[0].value);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [distance, setDistance] = useState('');
+  const [duration, setDuration] = useState('');
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -39,66 +42,48 @@ const AddWorkoutScreen = () => {
 
   const formatDate = (date) => {
     const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
     return `${day}.${month}.${year}`;
   };
-  
+
+  const handleAddWorkout = () => {
+    const numericDistance = parseFloat(distance);
+    const numericDuration = parseFloat(duration);
+
+    if (isNaN(numericDistance) || isNaN(numericDuration) || numericDistance < 0 || numericDuration < 0) {
+      Alert.alert('Invalid Input', 'Distance and Duration must be non-negative numeric values');
+      return;
+    }
+
+    // Here you can save the workout to your context or perform any other action
+    console.log('Workout added:', {
+      sportType: buttons[selection].label,
+      distance: numericDistance,
+      duration: numericDuration,
+      date: selectedDate
+    });
+  };
+
   return (
     <Provider theme={MyTheme}>
-      <View style={styles.container}>
-        <Text
-          variant='headlineLarge'
-          style={{ textAlign: 'center', fontWeight: 'bold' }}
-        >
+      <View style={style.container}>
+        <Text variant='headlineLarge' style={{ textAlign: 'center', fontWeight: 'bold' }}>
           Add workout
         </Text>
-        <SegmentedButtons
-          value={selection}
-          onValueChange={setSelection}
-          buttons={buttons}
-        />
-        <TextInput
-          label='Distance (km)'
-          mode='outlined'
-        />
-        <TextInput
-          label='Duration (min)'
-          mode='outlined'
-        />
-        {/* Calendar Chip */}
-        <Chip
-          icon="calendar"
-          onPress={showDatePicker}
-          style={{ marginTop: 10 }}
-        >
+        <SegmentedButtons value={selection} onValueChange={setSelection} buttons={buttons} />
+        <TextInput label='Distance (km)' mode='outlined' value={distance} onChangeText={setDistance} keyboardType="numeric" />
+        <TextInput label='Duration (min)' mode='outlined' value={duration} onChangeText={setDuration} keyboardType="numeric" />
+        <Chip icon="calendar" onPress={showDatePicker} style={{ marginTop: 10 }}>
           {formatDate(selectedDate)}
         </Chip>
-        {/* Date Picker */}
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="date"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-        />
-        {/* Submit Button */}
-        <Button
-        onPress={() => console.log('Button pressed')}
-          style={{ marginTop: 10 }}
-          mode='outlined'>Add workout</Button>
+        <DateTimePickerModal isVisible={isDatePickerVisible} mode="date" onConfirm={handleConfirm} onCancel={hideDatePicker} />
+        <Button onPress={handleAddWorkout} style={{ marginTop: 10 }} mode='outlined'>
+          Add workout
+        </Button>
       </View>
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'stretch',
-        justifyContent: 'center',
-        padding: 16,
-  },
-});
 
 export default AddWorkoutScreen;

@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AddWorkoutScreen from './components/AddWorkoutScreen';
 import WorkoutList from './components/WorkoutList';
+import SettingsScreen from './components/Settings';
 
 
 
@@ -46,11 +47,10 @@ function HomeScreen() {
 function Workouts() {
   return (
     <WorkoutList/>
-
-  )
+  );
 }
 function Settings() {
   return (
-    <Text>Settings</Text>
-  )
+    <SettingsScreen/>
+  );
 }
