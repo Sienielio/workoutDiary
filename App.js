@@ -24,7 +24,14 @@ export default function App() {
     settings: Settings,
   });
 
-  const [workouts, setWorkouts] = useState([{ selection: "swim", distance: "5", duration: "60", date: "2024-03-09" }]);
+  const [workouts, setWorkouts] = useState([
+  { selection: "swim", distance: "5", duration: "60", date: "2024-03-09" },
+  { selection: "run", distance: "10", duration: "45", date: "2024-03-08" },
+  { selection: "bike", distance: "15", duration: "90", date: "2024-03-07" },
+  { selection: "ski", distance: "20", duration: "120", date: "2024-03-06" },
+  { selection: "swim", distance: "5", duration: "60", date: "2024-03-05" },
+  { selection: "run", distance: "10", duration: "45", date: "2024-03-04" },
+]);
 
   const theme = useTheme();
 

@@ -13,15 +13,15 @@ export default List = () => {
         <Card title="card" mode='outlined'>
           <Card.Content>
             <Icon source="run-fast" size={20}></Icon>
-            <Text variant="headlineMedium">0 km</Text>
+            <Text variant="headlineMedium">8 km</Text>
           </Card.Content>
           <Card.Content>
             <Icon source="ski" size={20}></Icon>
-            <Text variant="headlineMedium">0 km</Text>
+            <Text variant="headlineMedium">25 km</Text>
           </Card.Content>
           <Card.Content>
             <Icon source="swim" size={20}></Icon>
-            <Text variant="headlineMedium">0 km</Text>
+            <Text variant="headlineMedium">5 km</Text>
           </Card.Content>
         </Card>
       </View>
