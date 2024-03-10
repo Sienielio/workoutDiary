@@ -27,16 +27,6 @@ export default function App() {
   const [workouts, setWorkouts] = useState([{ selection: "swim", distance: "5", duration: "60", date: "2024-03-09" }]);
 
   const theme = useTheme();
-/*   const theme = useTheme();
-  const customTheme = {
-    ...theme,
-    colors: {
-      ...theme.colors,
-      primary: '#b2dd7b', // Change to your desired primary color
-      surface: '#586249', // Change to your desired surface color
-    },
-  }; */
-
 
   return (
     <WorkoutContext.Provider value={{ workouts, setWorkouts }}>
