@@ -1,30 +1,52 @@
-import React from 'react';
-import { View } from 'react-native';
-import { Avatar, Button, Card, Text } from 'react-native-paper';
+import React, { useContext } from 'react';
+import { View, FlatList } from 'react-native';
+import { Card, Text, Icon, Provider } from 'react-native-paper';
+import { WorkoutContext } from './context';
 import style from '../style/style';
 
-// Define the LeftContent component with props to handle icons
-const LeftContent = props => <Avatar.Icon {...props} icon={props.icon} />
-
-const WorkoutList = () => {
-  const sportTypes = [
-    { icon: 'run-fast', kilometers: 25 },
-    { icon: 'swim', kilometers: 40 },
-    { icon: 'ski', kilometers: 15 }
-  ];
+export default List = () => {
+  const { workouts } = useContext(WorkoutContext);
 
   return (
-    <View style={style.card}>
-      {sportTypes.map((sport, index) => (
-        <Card key={index}>
+    <Provider theme={style.theme}>
+      <View style={style.cardView}>
+        <Card title="card" mode='outlined'>
           <Card.Content>
-            <LeftContent icon={sport.icon} />
-            <Text style={style.text}>{`${sport.kilometers} km`}</Text>
+            <Icon source="run-fast" size={20}></Icon>
+            <Text variant="headlineMedium">0 km</Text>
+          </Card.Content>
+          <Card.Content>
+            <Icon source="ski" size={20}></Icon>
+            <Text variant="headlineMedium">0 km</Text>
+          </Card.Content>
+          <Card.Content>
+            <Icon source="swim" size={20}></Icon>
+            <Text variant="headlineMedium">0 km</Text>
           </Card.Content>
         </Card>
-      ))}
-    </View>
+      </View>
+      <View>
+        <FlatList
+          data={workouts}
+          renderItem={({ item }) => <Item workout={item} />}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      </View>
+    </Provider>
   );
 };
 
-export default WorkoutList;
+function Item({ workout }) {
+  return (
+    <View>
+      <Card>
+        <Card.Content style={style.list}>
+          <Icon source={workout.selection} size={40} />
+          <Text variant="headlineSmall">Distance: {workout.distance} km</Text>
+          <Text variant="headlineSmall">Duration: {workout.duration} min</Text>
+          <Text variant="headlineSmall">{workout.date instanceof Date ? workout.date.toLocaleDateString() : 'Invalid Date'}</Text>
+        </Card.Content>
+      </Card>
+    </View>
+  );
+}

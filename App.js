@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Button, Pressable, StatusBar } from 'react-native';
-import { SegmentedButtons, MD3LightTheme, Provider, Text, TextInput, Chip, BottomNavigation } from 'react-native-paper';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import style from './style/style';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { BottomNavigation, useTheme } from 'react-native-paper';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AddWorkoutScreen from './components/AddWorkoutScreen';
 import WorkoutList from './components/WorkoutList';
 import SettingsScreen from './components/Settings';
+import { WorkoutContext } from './components/context';
 
-
+const Tab = createBottomTabNavigator();
 
 export default function App() {
-
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: 'home', title: 'Home', focusedIcon: 'account-circle', unfocusedIcon: 'account-circle-outline'},
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: 'home', title: 'Home', focusedIcon: 'account-circle', unfocusedIcon: 'account-circle-outline' },
     { key: 'workouts', title: 'Workouts', focusedIcon: 'run-fast' },
     { key: 'settings', title: 'Settings', focusedIcon: 'cog' },
   ]);
@@ -25,32 +22,52 @@ export default function App() {
     home: HomeScreen,
     workouts: Workouts,
     settings: Settings,
-  })
+  });
+
+  const [workouts, setWorkouts] = useState([{ selection: "swim", distance: "5", duration: "60", date: "2024-03-09" }]);
+
+  const theme = useTheme();
+/*   const theme = useTheme();
+  const customTheme = {
+    ...theme,
+    colors: {
+      ...theme.colors,
+      primary: '#b2dd7b', // Change to your desired primary color
+      surface: '#586249', // Change to your desired surface color
+    },
+  }; */
+
 
   return (
-    <SafeAreaProvider>
-      <BottomNavigation style={style.bottomNavigation}
-       navigationState={{ index, routes }}
-       onIndexChange={setIndex}
-        renderScene={scene}
-       /> 
-    </SafeAreaProvider>
-   
+    <WorkoutContext.Provider value={{ workouts, setWorkouts }}>
+      <SafeAreaProvider>
+        <NavigationContainer theme={theme}>
+          <BottomNavigation
+            barStyle={{ backgroundColor: '#b2dd7b'}} 
+            navigationState={{ index, routes }}
+            onIndexChange={setIndex}
+            renderScene={scene}
+          />
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </WorkoutContext.Provider>
   );
 }
 
 function HomeScreen() {
   return (
-    <AddWorkoutScreen/>
+    <AddWorkoutScreen />
   );
 }
+
 function Workouts() {
   return (
-    <WorkoutList/>
+    <WorkoutList />
   );
 }
+
 function Settings() {
   return (
-    <SettingsScreen/>
+    <SettingsScreen />
   );
 }
